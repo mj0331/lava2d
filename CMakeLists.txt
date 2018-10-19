@@ -12,20 +12,21 @@ add_subdirectory(./dependencies/V-EZ)
 
 include_directories(
     ${Vulkan_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/V-EZ/Libs/Assimp/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/V-EZ/Libs/glew/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/V-EZ/Libs/glfw/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/V-EZ/Libs/glm/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/V-EZ/Libs/stb/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/V-EZ/Libs/VulkanMemoryAllocator/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/V-EZ/Source
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Libs/Assimp/include
+    ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Libs/glew/include
+    ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Libs/glfw/include
+    ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Libs/glm/include
+    ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Libs/stb/include
+    ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Libs/VulkanMemoryAllocator/include
+    ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Source
+    ${PROJECT_SOURCE_DIR}/include
 )
 
-file(GLOB SOURCES "./src/*.cpp")
+file(GLOB LAVA2D_SOURCES "./src/*.cpp")
+file(GLOB LAVA2D_TEST "./test/src/*.cpp")
 
-#add_library(lava2d STATIC ${SOURCES})
-add_executable(lava2d ${SOURCES})
+add_library(lava2d STATIC ${LAVA2D_SOURCES})
+add_executable(lava2d_test  ${LAVA2D_TEST})
 
 #Find V-EZ
 if(CMAKE_BUILD_TYPE MATCHES Debug)
@@ -52,6 +53,13 @@ elseif(WIN32)
 endif(UNIX)
 
 target_link_libraries( lava2d
+    ${ASSIMP_LIB}
+    ${GLEW_LIB}
+    ${GLFW_LIB}
+    ${VEZ_LIB}
+)
+
+target_link_libraries( lava2d_test
     ${ASSIMP_LIB}
     ${GLEW_LIB}
     ${GLFW_LIB}
