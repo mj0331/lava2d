@@ -51,19 +51,9 @@ elseif(WIN32)
     find_library(GLFW_LIB NAMES glfw PATHS ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Libs/glfw/lib/win64 NO_DEFAULT_PATH)
 endif(UNIX)
 
-
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-    target_link_libraries( lava2d
-        ${ASSIMP_LIB}
-        ${GLEW_LIB}
-        ${GLFW_LIB}
-        ${VEZ_LIB}
-    )
-else()
-    target_link_libraries( lava2d
-        ${ASSIMP_LIB}
-        ${GLEW_LIB}
-        ${GLFW_LIB}
-        ${VEZ_LIB}
-    )
-endif(CMAKE_BUILD_TYPE MATCHES Debug)
+target_link_libraries( lava2d
+    ${ASSIMP_LIB}
+    ${GLEW_LIB}
+    ${GLFW_LIB}
+    ${VEZ_LIB}
+)
