@@ -64,4 +64,5 @@ target_link_libraries( lava2d_test
     ${GLEW_LIB}
     ${GLFW_LIB}
     ${VEZ_LIB}
+    lava2d
 )
