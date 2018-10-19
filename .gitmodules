@@ -1,0 +1,4 @@
+[submodule "dependencies/V-EZ"]
+	path = dependencies/V-EZ
+	url = https://github.com/GPUOpen-LibrariesAndSDKs/V-EZ
+	

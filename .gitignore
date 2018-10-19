@@ -1,0 +1,9 @@
+#Visual Studio Code fluff
+.vscode/
+
+#CMake fluff
+build/
+
+#Dependencies, which should be installed via Git's submodule mechanisms
+#git submodule update --init --recursive
+dependencies/V-EZ/
