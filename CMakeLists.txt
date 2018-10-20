@@ -6,6 +6,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${CMAKE_BUILD_TYPE})
 
+set(BUILD_VEZ_AND_NOTHING_ELSE_BECAUSE_CMAKE_SUCKS n)
+
 find_package(Vulkan REQUIRED)
 
 add_subdirectory(./dependencies/V-EZ)
@@ -22,11 +24,18 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/include
 )
 
+if(BUILD_VEZ_AND_NOTHING_ELSE_BECAUSE_CMAKE_SUCKS MATCHES y)
+
+file(GLOB LAVA2D_DUMMY "./dummy/*.cpp")
+add_executable(lava2d_dummy  ${LAVA2D_dummy})
+
+else() # not BUILD_VEZ_AND_NOTHING_ELSE_BECAUSE_CMAKE_SUCKS
+
 file(GLOB LAVA2D_SOURCES "./src/*.cpp")
 file(GLOB LAVA2D_TEST "./test/src/*.cpp")
-
 add_library(lava2d STATIC ${LAVA2D_SOURCES})
 add_executable(lava2d_test  ${LAVA2D_TEST})
+add_dependencies(lava2d_test lava2d)
 
 #Find V-EZ
 if(CMAKE_BUILD_TYPE MATCHES Debug)
@@ -66,3 +75,6 @@ target_link_libraries( lava2d_test
     ${VEZ_LIB}
     lava2d
 )
+
+endif(BUILD_VEZ_AND_NOTHING_ELSE_BECAUSE_CMAKE_SUCKS MATCHES y)
+
