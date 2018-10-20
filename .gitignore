@@ -1,6 +1,9 @@
 #Visual Studio Code fluff
 .vscode/
 
+#Visual Studio fluff
+.vs/
+
 #CMake fluff
 build/
 
