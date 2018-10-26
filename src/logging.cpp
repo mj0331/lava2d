@@ -6,6 +6,7 @@ namespace l2d{
         output_file_path = "";
         file_logger = nullptr;
         spdlog::set_pattern("%^[%H:%M:%S %z] [%n] [---%L---] [thread %t] %v %$");
+        spdlog::flush_every(std::chrono::seconds(3));
         console_logger = spdlog::stdout_color_mt("l2d_console_logger");
     }
 
@@ -15,6 +16,7 @@ namespace l2d{
         //spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
         spdlog::set_pattern("%^[%H:%M:%S %z] [%n] [---%L---] [thread %t] %v %$");        
         console_logger = spdlog::stdout_color_mt("l2d_console_logger");
+        spdlog::flush_every(std::chrono::seconds(3));
         file_logger = spdlog::basic_logger_mt("l2d_file_logger", output_file_path);
     }
 }
