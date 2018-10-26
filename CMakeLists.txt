@@ -11,6 +11,7 @@ set(BUILD_VEZ_AND_NOTHING_ELSE_BECAUSE_CMAKE_SUCKS n)
 find_package(Vulkan REQUIRED)
 
 add_subdirectory(./dependencies/V-EZ)
+add_subdirectory(./dependencies/spdlog)
 
 include_directories(
     ${Vulkan_INCLUDE_DIRS}
@@ -21,6 +22,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Libs/stb/include
     ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Libs/VulkanMemoryAllocator/include
     ${PROJECT_SOURCE_DIR}/dependencies/V-EZ/Source
+    ${PROJECT_SOURCE_DIR}/dependencies/spdlog/include
     ${PROJECT_SOURCE_DIR}/include
 )
 
