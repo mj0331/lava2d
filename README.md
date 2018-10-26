@@ -7,7 +7,7 @@ Still very very early in development.
 * Git
 * Vulkan 1.1.70 (or later, although not tested)
 * CMake 3.0.0 (or newer)
-* A 64bit C++ compiler (MSVC tested)
+* A 64bit C++14 compliant compiler (MSVC tested)
 
 ### Install and build
 1. Clone the repository
