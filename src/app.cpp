@@ -15,22 +15,22 @@ namespace l2d{
         this->app_version = version;
         this->l2d_version = {0, 0, 1};
         
-        //std::cout << title << " v" << version.major << "." << version.minor << "." << version.patch <<"\n";
-        //std::cout << "Lava2D" << " v" << l2d_version.major << "." << l2d_version.minor << "." << l2d_version.patch <<"\n";
-
         app::app_log.info("{} v{}.{}.{}", title, version.major, version.minor, version.patch);
         app::app_log.info("Lava2D v{}.{}.{}", l2d_version.major, l2d_version.minor, l2d_version.patch);
         
+        app::app_log.info("Initialising GLFW...");
         if(!init_glfw()) {
-            //std::cout << "Failed to initialise GLFW!\n";
             app::app_log.critical("Failed to initialise GLFW!");
             exit(1);
         }
+        app::app_log.info("GLFW3 initialised.");
 
+        app::app_log.info("Initialising Vulkan...");
         if(!init_vk()) {
             app::app_log.critical("Failed to initialise Vulkan!");
             exit(2);
         }
+        app::app_log.info("Vulkan initialised.");
     }
 
     app::~app()
@@ -60,6 +60,12 @@ namespace l2d{
         uint32_t extension_count;
         const char** extensions = glfwGetRequiredInstanceExtensions(&extension_count);
 
+        app::app_log.info("Loading instance extensions required by GLFW...");
+        for(unsigned int i = 0; i < extension_count; i++) 
+        {
+            app::app_log.info("Loading {}", extensions[i]);
+        }
+
         // Create the V-EZ instance.
         VezApplicationInfo appInfo = {};
         appInfo.pApplicationName = title.c_str();
@@ -75,11 +81,13 @@ namespace l2d{
         VkResult result = vezCreateInstance(&instanceCreateInfo, &instance);
         if (result != VK_SUCCESS)
             return false;
+        app::app_log.info("Vulkan instance created");
 
         // Create a surface to render to.
         result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
         if (result != VK_SUCCESS)
             return false;
+        app::app_log.info("Window surface created");
 
         // Enumerate and select the first discrete GPU physical device.
         uint32_t physicalDeviceCount;
