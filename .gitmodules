@@ -2,3 +2,6 @@
 	path = dependencies/V-EZ
 	url = https://github.com/GPUOpen-LibrariesAndSDKs/V-EZ
 	
+[submodule "dependencies/spdlog"]
+	path = dependencies/spdlog
+	url = https://github.com/gabime/spdlog.git
