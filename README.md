@@ -14,3 +14,5 @@ Still very very early in development.
 2. Get the dependencies (added as submodules to the repo):  `git submodule update --init --recursive`
 3. Generate project files with CMake (again, only tested for MSVC)
 4. Build using the generated project files
+  * On the first build, you might have to go into the CMakeLists.txt file and set `BUILD_VEZ_AND_NOTHING_ELSE_BECAUSE_CMAKE_SUCKS` to `y` because some issues with build order happened in the past.
+  * On subsequent builds, turn it back on to `n` and all should work.
