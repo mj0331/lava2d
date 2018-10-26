@@ -14,8 +14,10 @@
 #include <string>
 
 #include "version.h"
+#include "logging.h"
 
 namespace l2d{
+    
     class app{
         private:
             GLFWwindow* window;
@@ -36,6 +38,8 @@ namespace l2d{
         public:
             app(int width = 960, int height = 540, std::string title = "App", l2d::version version = {0, 0, 0});
             ~app();
+
+            static l2d::log app_log;
     };
 }
 

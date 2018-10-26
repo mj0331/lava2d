@@ -4,6 +4,9 @@
 #include <vector>
 
 namespace l2d{
+    //Init static members, such as the logger
+    l2d::log app::app_log = l2d::log("./log.txt");
+
     app::app(int width, int height, std::string title, l2d::version version)
     {
         this->width = width;
@@ -12,16 +15,20 @@ namespace l2d{
         this->app_version = version;
         this->l2d_version = {0, 0, 1};
         
-        std::cout << title << " v" << version.major << "." << version.minor << "." << version.patch <<"\n";
-        std::cout << "Lava2D" << " v" << l2d_version.major << "." << l2d_version.minor << "." << l2d_version.patch <<"\n";
+        //std::cout << title << " v" << version.major << "." << version.minor << "." << version.patch <<"\n";
+        //std::cout << "Lava2D" << " v" << l2d_version.major << "." << l2d_version.minor << "." << l2d_version.patch <<"\n";
 
+        app::app_log.info("{} v{}.{}.{}", title, version.major, version.minor, version.patch);
+        app::app_log.info("Lava2D v{}.{}.{}", l2d_version.major, l2d_version.minor, l2d_version.patch);
+        
         if(!init_glfw()) {
-            std::cout << "Failed to initialise GLFW!\n";
+            //std::cout << "Failed to initialise GLFW!\n";
+            app::app_log.critical("Failed to initialise GLFW!");
             exit(1);
         }
 
         if(!init_vk()) {
-            std::cout << "Failed to initialise Vulkan!\n";
+            app::app_log.critical("Failed to initialise Vulkan!");
             exit(2);
         }
     }
