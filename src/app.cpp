@@ -90,6 +90,7 @@ namespace l2d{
         app::app_log.info("Window surface created");
 
         // Enumerate and select the first discrete GPU physical device.
+		app::app_log.info("Finding Vulkan compatible devices and picking best one for rendering...");
         uint32_t physicalDeviceCount;
         vezEnumeratePhysicalDevices(instance, &physicalDeviceCount, nullptr);
 
@@ -100,6 +101,9 @@ namespace l2d{
         {
             VkPhysicalDeviceProperties properties;
             vezGetPhysicalDeviceProperties(pd, &properties);
+
+			app::app_log.info("Found {} Driver version {}", properties.deviceName, properties.driverVersion);
+
             if (properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
             {
                 physicalDevice = pd;

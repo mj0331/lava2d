@@ -17,30 +17,34 @@
 #include "logging.h"
 
 namespace l2d{
-    
-    class app{
-        private:
-            GLFWwindow* window;
-            VkInstance instance;
-            VkPhysicalDevice physicalDevice;
-            VkSurfaceKHR surface;
-            VkDevice device;
-            VezSwapchain swapchain;
+	
+	class app{
+		private:
+			GLFWwindow* window;
+			VkInstance instance;
+			VkPhysicalDevice physicalDevice;
+			VkSurfaceKHR surface;
+			VkDevice device;
+			VezSwapchain swapchain;
 
-            int width;
-            int height;
-            std::string title;
-            l2d::version app_version;
-            l2d::version l2d_version;
+			int width;
+			int height;
+			std::string title;
+			l2d::version app_version;
+			l2d::version l2d_version;
 
-            bool init_glfw();
-            bool init_vk();
-        public:
-            app(int width = 960, int height = 540, std::string title = "App", l2d::version version = {0, 0, 0});
-            ~app();
+			bool init_glfw();
+			bool init_vk();
+		protected:
+			app(int width = 960, int height = 540, std::string title = "App", l2d::version version = {0, 0, 0});
+			~app();
 
-            static l2d::log app_log;
-    };
+		public:
+			static l2d::log app_log;
+
+			virtual void update(float dt) = 0;
+
+	};
 }
 
 #endif // L2D_APP_H
