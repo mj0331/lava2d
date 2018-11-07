@@ -29,7 +29,7 @@ include_directories(
 if(BUILD_VEZ_AND_NOTHING_ELSE_BECAUSE_CMAKE_SUCKS MATCHES y)
 
 file(GLOB LAVA2D_DUMMY "./dummy/*.cpp")
-add_executable(lava2d_dummy  ${LAVA2D_dummy})
+add_executable(lava2d_dummy  ${LAVA2D_DUMMY})
 
 else() # not BUILD_VEZ_AND_NOTHING_ELSE_BECAUSE_CMAKE_SUCKS
 
@@ -68,6 +68,7 @@ target_link_libraries( lava2d
     ${GLEW_LIB}
     ${GLFW_LIB}
     ${VEZ_LIB}
+    ${Vulkan_LIBRARIES}
 )
 
 target_link_libraries( lava2d_test
@@ -75,6 +76,7 @@ target_link_libraries( lava2d_test
     ${GLEW_LIB}
     ${GLFW_LIB}
     ${VEZ_LIB}
+    ${Vulkan_LIBRARIES}
     lava2d
 )
 
