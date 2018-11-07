@@ -3,3 +3,5 @@
  * I couldn't get CMake to build that *before* Lava2D any other way
  * A moment of silence for the hours spent trying to fix this crap
  */
+
+int main() { return 0; }
