@@ -4,8 +4,9 @@
 #include <vector>
 
 namespace l2d{
-    //Init static members, such as the logger
+    //Init static members, such as the logger and singleton instance
     l2d::log app::app_log = l2d::log("./log.txt");
+    l2d::app* app::app_instance = nullptr;
 
     app::app(int width, int height, std::string title, l2d::version version)
     {
@@ -14,6 +15,12 @@ namespace l2d{
         this->title = title;
         this->app_version = version;
         this->l2d_version = {0, 0, 1};
+        this->signal_shutdown = false;
+        this->last_frame_time = std::chrono::high_resolution_clock::now();
+
+        if(app_instance == nullptr) {
+            app_instance = this;
+        }
         
         app::app_log.info("{} v{}.{}.{}", title, version.major, version.minor, version.patch);
         app::app_log.info("Lava2D v{}.{}.{}", l2d_version.major, l2d_version.minor, l2d_version.patch);
@@ -35,8 +42,12 @@ namespace l2d{
 
     app::~app()
     {
+        app::app_log.warn("Cleaning up VEZ...");
         vezDestroyDevice(device);
         vezDestroyInstance(instance);
+        app::app_log.warn("Shutting down GLFW...");
+        glfwDestroyWindow(this->window);
+        glfwTerminate();
     }
 
     bool app::init_glfw()
@@ -51,6 +62,11 @@ namespace l2d{
 
         if (!window)
             return false;
+
+        app::app_log.info("Setting event handlers...");
+        glfwSetMouseButtonCallback(window, glfw_mouse_button_event_handler);
+        glfwSetKeyCallback(window, glfw_keyboard_event_handler);
+        glfwSetCursorPosCallback(window, glfw_cursor_position_event_handler);
 
         return true;
     }
@@ -113,6 +129,17 @@ namespace l2d{
 
         if (physicalDevice == VK_NULL_HANDLE)
             return false;
+        
+        //Query selected device for supported extensions and list them
+        uint32_t supported_extension_count = 0;
+        vkEnumerateInstanceExtensionProperties(nullptr, &supported_extension_count, nullptr);
+        std::vector<VkExtensionProperties> supported_extensions(supported_extension_count);
+        vkEnumerateInstanceExtensionProperties(nullptr, &supported_extension_count, supported_extensions.data());
+        
+        app::app_log.info("Supported extensions on the device:");
+        for(const auto& extension : supported_extensions) {
+            app::app_log.info("\t{}", extension.extensionName);
+        }
 
         // Create a logical device connection to the physical device and load the swapchain extension
         std::vector<const char*> device_extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
@@ -133,5 +160,52 @@ namespace l2d{
             return false;
 
         return true;
+    }
+
+    app* app::get_instance() {
+        return app::app_instance == nullptr ? new app() : app::app_instance; 
+    }
+
+    void app::run()
+    {
+        while(!signal_shutdown && !glfwWindowShouldClose(window)) {
+            //Poll for window and input events
+            glfwPollEvents();
+
+            float dt = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - last_frame_time).count() / 1000.0f;
+            update(dt);
+        }
+    }
+
+    void app::glfw_keyboard_event_handler(GLFWwindow* window, int key, int scancode, int action, int mods)
+    {
+        if(action == GLFW_PRESS)
+        {
+            app::get_instance()->on_key_down(key);
+        }
+        else if(action == GLFW_RELEASE)
+        {
+            app::get_instance()->on_key_up(key);
+        }
+    }
+
+    void app::glfw_cursor_position_event_handler(GLFWwindow* window, double x, double y)
+    {
+        app::get_instance()->on_mouse_move(static_cast<int>(x), static_cast<int>(y));
+    }
+
+    void app::glfw_mouse_button_event_handler(GLFWwindow* window, int button, int action, int mods)
+    {
+        double x, y;
+        glfwGetCursorPos(window, &x, &y);
+
+        if (action == GLFW_PRESS)
+        {
+            app::get_instance()->on_mouse_down(button, static_cast<int>(x), static_cast<int>(y));
+        }
+        else if (action == GLFW_RELEASE)
+        {
+            app::get_instance()->on_mouse_up(button, static_cast<int>(x), static_cast<int>(y));
+        }
     }
 }
