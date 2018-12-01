@@ -33,7 +33,7 @@ add_executable(lava2d_dummy  ${LAVA2D_DUMMY})
 
 else() # not BUILD_VEZ_AND_NOTHING_ELSE_BECAUSE_CMAKE_SUCKS
 
-file(GLOB LAVA2D_SOURCES "./src/*.cpp")
+file(GLOB_RECURSE LAVA2D_SOURCES "./src/*.cpp")
 file(GLOB LAVA2D_TEST "./test/src/*.cpp")
 add_library(lava2d STATIC ${LAVA2D_SOURCES})
 add_executable(lava2d_test  ${LAVA2D_TEST})
