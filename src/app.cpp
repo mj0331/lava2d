@@ -208,4 +208,9 @@ namespace l2d{
             app::get_instance()->on_mouse_up(button, static_cast<int>(x), static_cast<int>(y));
         }
     }
+
+    void app::set_root_scene(l2d::scene * scene) { 
+        app::app_log.info("Setting root scene of app to {}", scene->get_id());
+        root_scene = scene; 
+    }
 }
