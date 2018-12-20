@@ -7,10 +7,10 @@
 #include <stb_image.h>
 
 namespace l2d{
-    texture::texture(std::string filepath) {
+    texture::texture(std::string& filepath) {
         file_path = filepath;
         app::app_log.info("TEXTURE LOAD {}", filepath);
-        data = stbi_load(filepath.c_str(), &width, &height, &channels, 4);
+        data = stbi_load(filepath.c_str(), &width, &height, &channels, STBI_rgb);
         if(data == nullptr) {
             app::app_log.critical("Failed to load texture {}!", filepath);
             ABORT(20);
@@ -18,7 +18,7 @@ namespace l2d{
     }
 
     void texture::free_pixel_data() {
-        if(data == nullptr || *data == 0) {
+        if(data == nullptr) {
             app::app_log.error("Trying to free already freed image {}", file_path);
             return;
         }

@@ -3,24 +3,26 @@
 
 #include <string>
 
-typedef unsigned char pixel_data;
+//typedef unsigned char pixel_data;
 
 namespace l2d {
     class texture {
         protected:
             std::string file_path;
-            pixel_data* data;
+            //pixel_data* data;
+            unsigned char * data;
             int width;
             int height;
             int channels;
 
         public:
             texture() = default;
-            texture(std::string filepath);
+            texture(std::string& filepath);
             texture(const l2d::texture& copy);
             ~texture();
 
-            pixel_data* get_pixels() const { return data; }
+            //pixel_data* get_pixels() const { return data; }
+            unsigned char * get_pixels() const { return data; }
             int get_width() const { return width; }
             int get_height() const { return height; }
             int get_channel_count() const { return channels; }
