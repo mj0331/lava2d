@@ -48,6 +48,8 @@ namespace l2d{
             bool signal_shutdown;
             std::chrono::steady_clock::time_point last_frame_time;
 
+            VkSampleCountFlagBits sample_count_flag = VK_SAMPLE_COUNT_1_BIT;
+
 
             bool init_glfw();
             bool init_vk();
@@ -55,9 +57,12 @@ namespace l2d{
             static void glfw_keyboard_event_handler(GLFWwindow* window, int key, int scancode, int action, int mods);
             static void glfw_cursor_position_event_handler(GLFWwindow* window, double x, double y);
             static void glfw_mouse_button_event_handler(GLFWwindow* window, int button, int action, int mods);
+
         protected:
             app(int width = 960, int height = 540, std::string title = "App", l2d::version version = {0, 0, 0});
             ~app();
+
+            typedef std::tuple<std::string, VkShaderStageFlagBits> pipeline_shader_info;
 
             scene* root_scene;
         public:
@@ -130,7 +135,11 @@ namespace l2d{
             void set_root_scene(l2d::scene* scene);
 
             inline VkDevice get_device() const { return device; }
-
+            inline VezFramebuffer get_framebuffer() const { return framebuffer.handle; }
+            void create_framebuffer();
+            bool create_pipeline(const std::vector<pipeline_shader_info>& pipelineShaderInfo, VezPipeline* pPipeline, std::vector<VkShaderModule>* shaderModules);
+            VkShaderModule create_shader_module(const std::string& filename, const std::string& entryPoint, VkShaderStageFlagBits stage);
+            void get_window_size(int& w, int& h);
     };
 }
 
