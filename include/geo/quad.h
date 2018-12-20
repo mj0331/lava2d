@@ -12,12 +12,16 @@ namespace l2d{
             private:
                 void create_vertex_buffer() override;
                 void create_texture() override;
+                void create_sampler();
+                void create_uniform_buffer();
+                void create_pipeline();
+                void create_command_buffer();
 
                 l2d::texture quad_texture;
             public:
                 quad() = default;
                 quad(std::string texture_path);
-                ~quad() = default;
+                ~quad();
         }; 
     }
 }
