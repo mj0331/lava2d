@@ -12,9 +12,12 @@ public:
 };
 
 my_app::my_app(int w, int h, std::string title, l2d::version v)
-    : l2d::app(w, h, title, v), my_quad("./Data/Textures/texture.jpg")
+	//: l2d::app(w, h, title, v), my_quad("./Data/Textures/texture.jpg")
+	//: l2d::app(w, h, title, v), my_quad("E:\\Projects\\lava2d_cmake\\build\\bin\\Debug\\Debug\\Data\\Textures\\texture.jpg")
+	: l2d::app(w, h, title, v)
+	
 {
-    
+	my_quad = l2d::geo::quad("E:\\Projects\\lava2d_cmake\\build\\bin\\Debug\\Debug\\Data\\Textures\\texture.jpg");
 }
 
 void my_app::on_key_down(int key) {
